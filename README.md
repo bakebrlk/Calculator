@@ -1,6 +1,8 @@
 # Calculator
 UIKit App 
 
-<video src='https://github.com/bakebrlkk/Calculator/blob/main/Calculator/screen.mp4' width=800 height = 1200/>
 
+
+
+https://github.com/bakebrlkk/Calculator/assets/119001855/6d764237-b686-4e5e-92c5-6f3858a416ec
 
