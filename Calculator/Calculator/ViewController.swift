@@ -199,7 +199,7 @@ class ViewController: UIViewController {
                 }
             
             if(firstNum != nil && secondNum != nil){
-                print("oper")
+                print(oper)
                 
                 if(data == "+" || oper == "+"){
                     
@@ -225,15 +225,9 @@ class ViewController: UIViewController {
                         secondNum = nil
                         oper = ""
                 }else if(data == "="){
+                    print("operation: \(oper)")
                     
-                    if(functions.contains(oper)){
-                        if(oper == "%" && firstNum != nil ){
-                            print("gg")
-                            firstNum! /= 100
-                            let kk = String(describing: firstNum)
-                            label.text = kk[9..<kk.count-1]
-                        }
-                    }
+                    oper = ""
                 }
                 let kk = String(describing: firstNum)
                 label.text = kk[9..<kk.count-1]
@@ -242,6 +236,13 @@ class ViewController: UIViewController {
         }else if(functions.contains(data)){
             if(oper.isEmpty){
                 oper = data
+            }
+            if(oper == "%" && firstNum != nil ){
+                print("gg")
+                firstNum! /= 100
+                let kk = String(describing: firstNum)
+                label.text = kk[9..<kk.count-1]
+                oper = ""
             }
             
             if(!numberLine.isEmpty){
@@ -258,6 +259,7 @@ class ViewController: UIViewController {
                 firstNum = nil
                 secondNum = nil
                 label.text = "0"
+                oper = ""
             }else if(data == "%"){
                 
                 if(oper == "%" && firstNum != nil){
