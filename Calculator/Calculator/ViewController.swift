@@ -253,6 +253,7 @@ class ViewController: UIViewController {
                     secondNum = Float(numberLine)
                 }
                 numberLine = ""
+                
             }
             
             if(data == "AC"){
