@@ -22,6 +22,7 @@ class ViewController: UIViewController {
     var secondNum: Float? = nil
     
     var numberLine: String = ""
+    let swipeLeft = UISwipeGestureRecognizer()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,6 +39,13 @@ class ViewController: UIViewController {
         setNumbers()
         
         view.addSubview(label)
+        
+        label.isUserInteractionEnabled = true
+        swipeLeft.direction = .left
+        swipeLeft.addTarget(self, action: #selector(swipe))
+        
+        label.addGestureRecognizer(swipeLeft)
+
         label.snp.makeConstraints { make in
             make.centerY.equalTo(height/3)
             make.trailing.equalToSuperview().offset(between * (-1))
@@ -45,14 +53,29 @@ class ViewController: UIViewController {
         }
     }
     
+   
     
     private var label: UILabel = {
         var label = UILabel()
         label.text = "0"
         label.textColor  = .white
         label.font = .systemFont(ofSize: 94)
+
         return label
     }()
+    
+    @objc func swipe(){
+        
+        print(numberLine)
+        if(numberLine.count > 1 && numberLine != "0"){
+            numberLine = numberLine[0..<numberLine.count-1]
+        }else if(numberLine.count == 1 && numberLine != "0"){
+            numberLine = "0"
+        }
+        
+        label.text = numberLine
+        
+    }
     
     private func setNumbers(){
         
@@ -146,7 +169,7 @@ class ViewController: UIViewController {
             
         view.setTitle(num, for: .normal)
         view.setTitleColor(.white, for: .normal)
-        view.titleLabel?.font = .boldSystemFont(ofSize: 28)
+        view.titleLabel?.font = .boldSystemFont(ofSize: 39)
         
 
         
@@ -169,6 +192,7 @@ class ViewController: UIViewController {
                     if(firstNum == nil){
                         firstNum = Float(numberLine)
                     }else if(secondNum == nil){
+                        print("sec")
                         secondNum = Float(numberLine)
                     }
                     numberLine = ""
@@ -200,13 +224,49 @@ class ViewController: UIViewController {
                         firstNum! /= secondNum ?? 0
                         secondNum = nil
                         oper = ""
+                }else if(data == "="){
+                    
+                    if(functions.contains(oper)){
+                        if(oper == "%" && firstNum != nil ){
+                            print("gg")
+                            firstNum! /= 100
+                            let kk = String(describing: firstNum)
+                            label.text = kk[9..<kk.count-1]
+                        }
+                    }
                 }
                 let kk = String(describing: firstNum)
                 label.text = kk[9..<kk.count-1]
             }
             
         }else if(functions.contains(data)){
-            print("func")
+            if(oper.isEmpty){
+                oper = data
+            }
+            
+            if(!numberLine.isEmpty){
+                
+                if(firstNum == nil){
+                    firstNum = Float(numberLine)
+                }else if(secondNum == nil){
+                    secondNum = Float(numberLine)
+                }
+                numberLine = ""
+            }
+            
+            if(data == "AC"){
+                firstNum = nil
+                secondNum = nil
+                label.text = "0"
+            }else if(data == "%"){
+                
+                if(oper == "%" && firstNum != nil){
+                    print("gg")
+                    firstNum! /= 100
+                    let kk = String(describing: firstNum)
+                    label.text = kk[9..<kk.count-1]
+                }
+            }
         }else if(!data.isEmpty){
             numberLine.append(data)
             label.text = numberLine
